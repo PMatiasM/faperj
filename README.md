@@ -24,12 +24,10 @@ http://faperj.ddns.net:31415/themes
 
 http://faperj.ddns.net:31415/themes/id/"id"
 
-http://faperj.ddns.net:31415/themes/lastUpdate
-
 ## Characters
 
 http://faperj.ddns.net:31415/characters
 
 http://faperj.ddns.net:31415/characters/id/"id"
 
-http://faperj.ddns.net:31415/characters/lastUpdate
+#### Todas as rotas possuem um endpoint /lastUpdate
