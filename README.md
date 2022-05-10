@@ -30,4 +30,18 @@ http://faperj.ddns.net:31415/characters
 
 http://faperj.ddns.net:31415/characters/id/"id"
 
+## Quiz
+
+http://faperj.ddns.net:31415/quiz
+
+http://faperj.ddns.net:31415/quiz/preview
+
+http://faperj.ddns.net:31415/quiz/id/"id"
+
+## Quiz Item
+
+http://faperj.ddns.net:31415/quizItem
+
+http://faperj.ddns.net:31415/quizItem/id/"id"
+
 #### Todas as rotas possuem um endpoint /lastUpdate
