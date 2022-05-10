@@ -1,5 +1,6 @@
 const asyncMysql = require('../infrastructure/asyncConnection');
 const axios = require('axios');
+const lastUpdate = require('../infrastructure/lastUpdate');
 
 class ListController {
     static async create(req, res) {
@@ -22,7 +23,7 @@ class ListController {
 
             const verifyTitle = await db.query(`SELECT * FROM lists WHERE title='${questionList.title}'`);
             if(verifyTitle[0].length > 0) {
-                throw new Error(`The title "${questionList.title}" already exists`);
+                throw new Error(`The title '${questionList.title}' already exists`);
             }
 
             const values = {
@@ -183,6 +184,12 @@ class ListController {
         } catch(error) {
             res.status(500).json({ "Error message": error.message });
         } 
+    }
+
+    static async lastUpdate(req, res) {
+        const query = "SELECT max(createdAt) FROM lists";
+
+        lastUpdate(query, res);
     }
 }
 module.exports = ListController;

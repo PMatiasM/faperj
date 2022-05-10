@@ -7,4 +7,7 @@ module.exports = app => {
     
     app.route('/questions/id/:id')
         .get(QuestionController.readOne)
+
+    app.route('/questions/lastUpdate')
+        .get(QuestionController.lastUpdate)
 }

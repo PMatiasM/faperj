@@ -1,4 +1,5 @@
 const asyncMysql = require('../infrastructure/asyncConnection');
+const lastUpdate = require('../infrastructure/lastUpdate');
 
 class ThemeController {
 
@@ -69,19 +70,7 @@ class ThemeController {
     static async lastUpdate(req, res) {
         const query = "SELECT max(createdAt) FROM themelist";
 
-        try {
-
-            const db = await asyncMysql();
-
-            const results = await db.query(query);
-            const lastUpdate = results[0][0];
-
-            await db.end();
-            return res.json({ "lastUpdate": lastUpdate["max(createdAt)"] });
-
-        } catch(error) {
-            return res.status(500).json({ "Error message": error.message });
-        }
+        lastUpdate(query, res);
     }
 }
 module.exports = ThemeController;

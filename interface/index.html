@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro de Questões</title>
+    <link rel="stylesheet" href="reset.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+<body>
+    <header>
+        <div class="caixa">
+            <h1 class="logo"><a href="index.html"><img src="iffluminense.png"></a></h1>
+        </div>
+    </header>
+    <main>
+        <div class="principal">
+            <div class="twins" id="tw1">
+                <fieldset id="statement">
+
+                    <legend>Enunciado:</legend>
+                    <textarea name="statement"></textarea>
+                
+                </fieldset>
+        
+                <fieldset id="alternatives">
+                    <legend for="">Alternativas:</legend>
+        
+                    <div class="alternativesBox">
+        
+                        <label class="alternativesLabel">1- <textarea name="alternatives"></textarea></label>
+                        <label class="alternativesLabel">2- <textarea name="alternatives"></textarea></label>
+                        <label class="alternativesLabel">3- <textarea name="alternatives"></textarea></label>
+                        <label class="alternativesLabel">4- <textarea name="alternatives"></textarea></label>
+                        <label class="alternativesLabel">5- <textarea name="alternatives"></textarea></label>
+        
+                        <div class="correctDiv">
+                            <label id="correctLabel">Correta: 
+                                <select name="correct" id="correctSelect">
+                                    <option value="0">1</option>
+                                    <option value="1">2</option>
+                                    <option value="2">3</option>
+                                    <option value="3">4</option>
+                                    <option value="4">5</option>
+                                </select>
+                            </label>
+                        </div>
+                    
+                    </div>
+                    
+                </fieldset>
+        
+                <fieldset id="theme">
+                    <legend>Tema:
+                        <select name="theme" id="">
+
+                        </select>
+                        <button id="addTheme">+</button>
+                    </legend>
+                </fieldset>
+                
+                <div id="addThemeDiv" class="hide">
+                    <label>Novo Tema:
+                        <input type="text" id="newTheme">
+                    </label>
+                    <button id="addNewTheme">Adicionar</button>
+                </div>
+
+                <fieldset id="character">
+                    <legend>Personagem</legend>
+                    <h3>Nome: <select name="name" id=""></select></h3>
+                    <div class="charactersImagesDiv">
+                        <h3>Foto:</h3>
+                        <ul>
+                            
+                        </ul>
+                    </div>
+                </fieldset>
+                
+                
+
+                <fieldset id="difficulty">
+                    <legend>Dificuldade:
+                        <input id="difficultyRange" type="range" value="2" min="1" max="3" oninput="this.nextElementSibling.value = this.value">
+                        <output id="difficultyOutput">2</output>
+                    </legend>
+        
+        
+                </fieldset>
+        
+                <button id="add">Adicionar</button>
+                <button class="hide" id="save">Salvar</button>
+                <button class="hide" id="cancel">Cancelar</button>
+            </div>
+            <div class="divisor"></div>
+            <div class="twins" id="tw2">
+                <label id="titleLabel">Insira um título para a lista: <input id="titleInput" type="text"></label>
+                
+                <div id="questionsDiv">
+                    <div class="registros">
+                        <div class="container">
+                            <div class="bar1"></div>
+                            <div class="bar2"></div>
+                            <div class="bar3"></div>
+                        </div>
+                        <p>Considerando-se que todo projeto tem um início e um fim definidos, essa característica é designada de</p>
+                        <div class="details">
+                            <ol>
+                                <li>
+                                    <p>objetividade.</p>
+                                </li>
+                                <li class="rightAnswer">
+                                    <p>temporalidade.</p>
+                                </li>
+                                <li>
+                                    <p>progressividade.</p>
+                                </li>
+                                <li>
+                                    <p>durabilidade.</p>
+                                </li>
+                                <li>
+                                    <p>singularidade.</p>
+                                </li>
+                            </ol>
+                            <div class="horizontalDivisor"></div>
+                            <div class="detailsTCD">
+                                <h2>Tema:</h2>
+                                <p>Gerencia de projetos</p>
+                            </div>
+                            <div class="detailsTCD">
+                                <h2>Personagem:</h2>
+                                <div>
+                                    <img src="https://www.shareicon.net/data/512x512/2016/04/10/747396_people_512x512.png" alt="">
+                                    <p>Ana</p>
+                                </div>
+                            </div>
+                            <div class="detailsTCD">
+                                <h2>Dificuldade:</h2>
+                                <input id="difficultyRange" type="range" value="2" min="1" max="3" oninput="this.nextElementSibling.value = this.value" disabled>
+                                <output id="difficultyOutput">2</output>
+                            </div>
+                            <!-- config do botao de edit -->
+                            <img class="delEdit" src="icons8-lixo-192.png" alt="">
+                            <img class="delEdit" src="icons8-editar-120.png" alt="">
+                        </div>
+                    </div>
+                </div>
+                
+                <button id="send" class="hide">Enviar</button>
+            </div>
+        </div>
+    </main>
+    <script type="module" src="./static/index.js"></script>
+</body>
+</html>

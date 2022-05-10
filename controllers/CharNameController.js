@@ -1,4 +1,5 @@
 const asyncMysql = require('../infrastructure/asyncConnection');
+const lastUpdate = require('../infrastructure/lastUpdate');
 
 class CharNameController {
 
@@ -65,6 +66,12 @@ class CharNameController {
         } catch(error) {
             return res.status(500).json({ "Error message": error.message });
         }
+    }
+
+    static async lastUpdate(req, res) {
+        const query = "SELECT max(createdAt) FROM charname";
+
+        lastUpdate(query, res);
     }
 }
 module.exports = CharNameController;

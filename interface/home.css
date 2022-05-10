@@ -1,0 +1,35 @@
+html {
+    font-family: 'IBM Plex Mono', monospace;
+    background: linear-gradient(90deg, #233329,#63d471);
+}
+
+.principal {
+    width: 960px;
+    margin: 0 auto;
+}
+
+img {
+    display: block;
+    margin: 250px auto 50px;
+}
+
+ul {
+    display: block;
+    margin: 25px auto;
+    text-align: center;
+    font-size: 35px;
+}
+
+li {
+    margin: 0 0 35px 0;
+}
+
+a {
+    text-decoration: none;
+    color: white;
+}
+
+a:hover {
+    color: #aa8f2b;
+    text-decoration: underline;
+}

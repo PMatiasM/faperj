@@ -10,4 +10,7 @@ module.exports = app => {
 
     app.route('/lists/preview')
         .get(ListController.readAllPreview)
+
+    app.route('/lists/lastUpdate')
+        .get(ListController.lastUpdate)
 }

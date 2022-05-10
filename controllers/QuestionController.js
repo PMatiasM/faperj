@@ -1,4 +1,5 @@
 const asyncMysql = require('../infrastructure/asyncConnection');
+const lastUpdate = require('../infrastructure/lastUpdate');
 
 class QuestionController {    
     
@@ -18,6 +19,10 @@ class QuestionController {
             if(question.correct === '') {
                 throw new Error("Column 'correct' cannot be null");
             }
+            
+            if(question.source === '') {
+                throw new Error("Column 'source' cannot be null");
+            }
 
             if(!question.answers) {
                 throw new Error("The answers cannot be null");
@@ -27,7 +32,8 @@ class QuestionController {
                 "prompt" : question.prompt,
                 "themeId" : question.themeId,
                 "characterId" : question.characterId,
-                "difficulty" : question.difficulty
+                "difficulty" : question.difficulty,
+                "source" : question.source
             };
 
             const dbVerifyQuestion = await db.query(`SELECT * FROM questionlist WHERE prompt = '${question.prompt}'`);
@@ -87,6 +93,20 @@ class QuestionController {
                 await db.query(query, values);
                 index++;
             };
+
+            if(question.images) {
+                for(const image of question.image) {
+                    const query = "INSERT INTO questionimages SET ?;";
+                    
+                    const values = {
+                        "questionId" : questionId,
+                        "imgURL" : image
+                    };
+                    
+                    await db.query(query, values);
+                }
+            }
+
             await db.end();
             return res.status(201).json({
                 "Status": "Created",
@@ -103,6 +123,7 @@ class QuestionController {
         const questionList = [];
         const questionQuery = "SELECT * from questionlist";
         const answerQuery = "SELECT * from answers WHERE questionId=?";
+        const imageQuery = "SELECT * from questionimages WHERE questionId=?";
         
         try {
 
@@ -122,13 +143,26 @@ class QuestionController {
                         correct = i;
                     };
                 };
+
+                const imageList = []
+                const imagesResults = await db.query(imageQuery, question.id);
+                const imagesCleanResults = imagesResults[0];
+
+                if(imagesCleanResults !== []) {
+                    for(const image of imagesCleanResults) {
+                        imageList.push(image.imgURL)
+                    }
+                }
+
                 questionList.push({
                     "prompt": question.prompt,
                     "answers" : answerList,
                     "correct" : correct,
+                    "images" : imageList,
                     "themeId": question.themeId,
                     "characterId": question.characterId,
-                    "difficulty" : question.difficulty
+                    "difficulty" : question.difficulty,
+                    "source" : question.source
                 })
             };
             await db.end();
@@ -144,6 +178,7 @@ class QuestionController {
 
         const questionQuery = "SELECT * from questionlist WHERE id=?";
         const answerQuery = "SELECT * from answers WHERE questionId=?";
+        const imageQuery = "SELECT * from questionimages WHERE questionId=?";
         
         try {
 
@@ -163,13 +198,26 @@ class QuestionController {
                     correct = i;
                 };
             };
+
+            const imageList = []
+            const imagesResults = await db.query(imageQuery, id);
+            const imagesCleanResults = imagesResults[0];
+
+            if(imagesCleanResults !== []) {
+                for(const image of imagesCleanResults) {
+                    imageList.push(image.imgURL)
+                }
+            }
+
             const question = {
                 "prompt": questionResults.prompt,
                 "answers" : answerList,
                 "correct" : correct,
+                "images" : imageList,
                 "themeId": questionResults.themeId,
                 "characterId": questionResults.characterId,
-                "difficulty" : questionResults.difficulty
+                "difficulty" : questionResults.difficulty,
+                "source" : questionResults.source
             }
         
             await db.end();
@@ -177,6 +225,12 @@ class QuestionController {
         } catch(error) {
             res.status(500).json({ "Error message": error.message });
         }
+    }
+
+    static async lastUpdate(req, res) {
+        const query = "SELECT max(createdAt) FROM questionlist";
+
+        lastUpdate(query, res);
     }
 }
 module.exports = QuestionController;

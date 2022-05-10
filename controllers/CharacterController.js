@@ -1,5 +1,6 @@
 const asyncMysql = require('../infrastructure/asyncConnection');
 const axios = require('axios');
+const lastUpdate = require('../infrastructure/lastUpdate');
 
 class CharacterController {
 
@@ -14,11 +15,11 @@ class CharacterController {
                 throw new Error("Column 'charName' cannot be null");
             }
 
-            if(character.portraitPath == "") {
-                character.portraitPath = null;
+            if(character.portraitURL == "") {
+                character.portraitURL = null;
             }
 
-            const dbVerifyCharacter = await db.query(`SELECT * FROM characterlist WHERE charName='${character.charName}' AND portraitPath='${character.portraitPath}'`);
+            const dbVerifyCharacter = await db.query(`SELECT * FROM characterlist WHERE charName='${character.charName}' AND portraiturl='${character.portraitURL}'`);
             const verifyCharacter = dbVerifyCharacter[0][0];
             if(verifyCharacter) {
                 return res.json({
@@ -29,7 +30,7 @@ class CharacterController {
 
             const values = {
                 "charName" : character.charName,
-                "portraitPath": character.portraitPath
+                "portraiturl": character.portraitURL
             };
 
             const result = await db.query(query, values)
@@ -57,9 +58,9 @@ class CharacterController {
 
             for(const character of characters) {
                 const charName = await axios.get(`http://localhost:31415/names/id/${character.charName}`);
-                const portraitPath = await axios.get(`http://localhost:31415/paths/id/${character.portraitPath}`);
+                const portraitURL = await axios.get(`http://localhost:31415/paths/id/${character.portraitURL}`);
                 character.charName = charName.data.name;
-                character.portraitPath = portraitPath.data.path;
+                character.portraitURL = portraitURL.data.path;
             }
 
             await db.end();
@@ -88,9 +89,9 @@ class CharacterController {
 
             if(character) {
                 const charName = await axios.get(`http://localhost:31415/names/id/${character.charName}`);
-                const portraitPath = await axios.get(`http://localhost:31415/paths/id/${character.portraitPath}`);
+                const portraitURL = await axios.get(`http://localhost:31415/paths/id/${character.portraitURL}`);
                 character.charName = charName.data.name;
-                character.portraitPath = portraitPath.data.path;
+                character.portraitURL = portraitURL.data.path;
             } else {
                 throw new Error(`Id ${id} character does not exist`);
             }
@@ -123,6 +124,12 @@ class CharacterController {
         } catch(error) {
             res.status(500).json({ "Error message": error.message });
         }
+    }
+
+    static async lastUpdate(req, res) {
+        const query = "SELECT max(createdAt) FROM characterlist";
+
+        lastUpdate(query, res);
     }
 }
 module.exports = CharacterController;
