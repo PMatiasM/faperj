@@ -131,7 +131,7 @@ class QuizController {
             const allQuizes = []
 
             const db = await asyncMysql();
-            const query = 'SELECT * FROM lists'
+            const query = 'SELECT * FROM quiz'
 
             const results = await db.query(query);
             const quizes = results[0]
