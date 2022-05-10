@@ -117,6 +117,10 @@ class ListController {
             const results = await db.query(query, id);
             const list = results[0][0];
             
+            if(!list) {
+                throw new Error(`Id ${id} list does not exist`);
+            }
+
             const questionList = [];
 
             const themeIdlist = [];

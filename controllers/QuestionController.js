@@ -6,7 +6,7 @@ class QuestionController {
     static async create(req, res) {
         
         const question = req.body;
-        const query = "INSERT INTO questionlist SET ?;";
+        const query = "INSERT INTO questionlist SET ?";
 
         try {
 
