@@ -155,6 +155,7 @@ class QuestionController {
                 }
 
                 questionList.push({
+                    "id": question.id,
                     "prompt": question.prompt,
                     "answers" : answerList,
                     "correct" : correct,
@@ -214,6 +215,7 @@ class QuestionController {
             }
 
             const question = {
+                "id": questionResults.id,
                 "prompt": questionResults.prompt,
                 "answers" : answerList,
                 "correct" : correct,
