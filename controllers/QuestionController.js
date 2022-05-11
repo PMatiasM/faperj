@@ -188,6 +188,10 @@ class QuestionController {
             const dbQuestionResults = await db.query(questionQuery, id);
             const questionResults = dbQuestionResults[0][0];
 
+            if(!questionResults) {
+                throw new Error(`Id ${id} question does not exist`);
+            }
+
             const answerList = [];
             const answersResults = await db.query(answerQuery, questionResults.id);
             const answersCleanResults = answersResults[0];
