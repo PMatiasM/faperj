@@ -76,6 +76,7 @@ class QuizController {
                     "id" : quiz.id,
                     "title" : quiz.title,
                     itemList,
+                    "difficulty": quiz.difficulty,
                     "description" : quiz.description
                 })
             }
@@ -115,6 +116,7 @@ class QuizController {
                 "id" : quiz.id,
                 "title" : quiz.title,
                 itemList,
+                "difficulty": quiz.difficulty,
                 "description" : quiz.description
             });
         } catch(error) {
@@ -140,6 +142,7 @@ class QuizController {
                 allQuizes.push({
                     "id" : quiz.id,
                     "title" : quiz.title,
+                    "difficulty": quiz.difficulty,
                     "description" : quiz.description
                 })
             }
