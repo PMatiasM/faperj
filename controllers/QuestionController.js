@@ -74,10 +74,21 @@ class QuestionController {
             const result = await db.query(query, values);
             const questionId = result[0].insertId;
     
+            for(const image of question.questionImages) {
+                const query = "INSERT INTO questionimages SET ?"
+                
+                const values = {
+                    "questionId" : questionId,
+                    "imgURL" : image
+                }
+
+                await db.query(query, values);
+            }
+
             let index = 0;
 
             for(const answer of question.answers) {
-                const query = "INSERT INTO answers SET ?;";
+                const query = "INSERT INTO answers SET ?";
                 let correct = false;
                 
                 if(index == question.correct) {
