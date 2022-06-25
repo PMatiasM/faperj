@@ -6,42 +6,42 @@ API utilizada para servir dados ao simulador de gestão 4.0, projeto de Iniciaç
 
 ## Lists
 
-http://faperj.ddns.net:31415/lists
+http://faperj.ddns.net/api/lists
 
-http://faperj.ddns.net:31415/lists/preview
+http://faperj.ddns.net/api/lists/preview
 
-http://faperj.ddns.net:31415/lists/id/"id"
+http://faperj.ddns.net/api/lists/id/"id"
 
 ## Questions
 
-http://faperj.ddns.net:31415/questions
+http://faperj.ddns.net/api/questions
 
-http://faperj.ddns.net:31415/questions/id/"id"
+http://faperj.ddns.net/api/questions/id/"id"
 
 ## Themes
 
-http://faperj.ddns.net:31415/themes
+http://faperj.ddns.net/api/themes
 
-http://faperj.ddns.net:31415/themes/id/"id"
+http://faperj.ddns.net/api/themes/id/"id"
 
 ## Characters
 
-http://faperj.ddns.net:31415/characters
+http://faperj.ddns.net/api/characters
 
-http://faperj.ddns.net:31415/characters/id/"id"
+http://faperj.ddns.net/api/characters/id/"id"
 
 ## Quiz
 
-http://faperj.ddns.net:31415/quiz
+http://faperj.ddns.net/api/quiz
 
-http://faperj.ddns.net:31415/quiz/preview
+http://faperj.ddns.net/api/quiz/preview
 
-http://faperj.ddns.net:31415/quiz/id/"id"
+http://faperj.ddns.net/api/quiz/id/"id"
 
 ## Quiz Item
 
-http://faperj.ddns.net:31415/quizItem
+http://faperj.ddns.net/api/quizItem
 
-http://faperj.ddns.net:31415/quizItem/id/"id"
+http://faperj.ddns.net/api/quizItem/id/"id"
 
 #### Todas as rotas possuem um endpoint /lastUpdate
