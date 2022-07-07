@@ -1,13 +1,12 @@
-const CharacterController = require('../controllers/CharacterController');
+const CharacterController = require("../controllers/CharacterController");
 
-module.exports = app => {
-    app.route('/characters')
-        .get(CharacterController.readAll)
-        .post(CharacterController.create)
+module.exports = (app) => {
+  app
+    .route("/characters")
+    .get(CharacterController.readAll)
+    .post(CharacterController.create);
 
-    app.route('/characters/id/:id')
-        .get(CharacterController.readOne)
-        
-    app.route('/characters/lastUpdate')
-        .get(CharacterController.lastUpdate)
-}
+  app.route("/characters/id/:id").get(CharacterController.readOne);
+
+  app.route("/characters/lastUpdate").get(CharacterController.lastUpdate);
+};

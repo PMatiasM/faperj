@@ -1,77 +1,72 @@
-const asyncMysql = require('../infrastructure/asyncConnection');
-const lastUpdate = require('../infrastructure/lastUpdate');
+const asyncMysql = require("../infrastructure/asyncConnection");
+const lastUpdate = require("../infrastructure/lastUpdate");
 
 class CharNameController {
+  static async create(req, res) {
+    const name = req.body;
+    const query = "INSERT INTO charname SET ?;";
 
-    static async create(req, res) {
-        const name = req.body;
-        const query = "INSERT INTO charname SET ?;";
+    try {
+      const db = await asyncMysql();
 
-        try {
-            const db = await asyncMysql();
+      if (name.name === "") {
+        throw new Error("Column 'name' cannot be null");
+      }
 
-            if(name.name == "") {
-                throw new Error("Column 'name' cannot be null");
-            }
+      const verifyCharacter = await db.query(
+        `SELECT * FROM charname WHERE name='${name.name}'`
+      );
+      if (verifyCharacter[0].length > 0) {
+        throw new Error(`The charName '${name.name}' already exists`);
+      }
 
-            const verifyCharacter = await db.query(`SELECT * FROM charname WHERE name='${name.name}'`);
-            if(verifyCharacter[0].length > 0) {
-                throw new Error(`The charName '${name.name}' already exists`);
-            }
+      const values = { name: name.name };
 
-            const values = { "name" : name.name };
-
-            const result = await db.query(query, values)
-            const nameId = result[0].insertId;
-            await db.end();
-            return res.status(201).json({
-                "Status": "Created",
-                "id": nameId
-            })
-        } catch(error) {
-            res.status(500).json({ "Error message": error.message });
-        }
+      const result = await db.query(query, values);
+      const nameId = result[0].insertId;
+      await db.end();
+      return res.status(201).json({
+        Status: "Created",
+        id: nameId,
+      });
+    } catch (error) {
+      res.status(500).json({ "Error message": error.message });
     }
+  }
 
-    static async readAll(req, res) {
-        
-        const query = "SELECT * FROM charname";
+  static async readAll(req, res) {
+    const query = "SELECT * FROM charname";
 
-        try {
-            
-            const db = await asyncMysql();
+    try {
+      const db = await asyncMysql();
 
-            const names = await db.query(query);
-            await db.end();
-            return res.json(names[0]);
-
-        } catch(error) {
-            return res.status(500).json({ "Error message": error.message });
-        }
+      const names = await db.query(query);
+      await db.end();
+      return res.json(names[0]);
+    } catch (error) {
+      return res.status(500).json({ "Error message": error.message });
     }
+  }
 
-    static async readOne(req, res) {
-        
-        const query = "SELECT * FROM charname WHERE id=?";
+  static async readOne(req, res) {
+    const query = "SELECT * FROM charname WHERE id=?";
 
-        try {
+    try {
+      const id = req.params.id;
+      const db = await asyncMysql();
 
-            const id = req.params.id;
-            const db = await asyncMysql();
-
-            const name = await db.query(query, id);
-            await db.end();
-            return res.json(name[0][0]);
-
-        } catch(error) {
-            return res.status(500).json({ "Error message": error.message });
-        }
+      const name = await db.query(query, id);
+      await db.end();
+      return res.json(name[0][0]);
+    } catch (error) {
+      return res.status(500).json({ "Error message": error.message });
     }
+  }
 
-    static async lastUpdate(req, res) {
-        const query = "SELECT max(createdAt) FROM charname";
+  static async lastUpdate(req, res) {
+    const query = "SELECT max(createdAt) FROM charname";
 
-        lastUpdate(query, res);
-    }
+    lastUpdate(query, res);
+  }
 }
 module.exports = CharNameController;
