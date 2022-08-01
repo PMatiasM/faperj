@@ -2,11 +2,13 @@ const ScenarioOptionController = require("../controllers/ScenarioOptionControlle
 
 module.exports = (app) => {
   app
-    .route("/scenario")
+    .route("/scenarioOption")
     .get(ScenarioOptionController.readAll)
     .post(ScenarioOptionController.create);
 
-  app.route("/scenario/id/:id").get(ScenarioOptionController.readOne);
+  app.route("/scenarioOption/id/:id").get(ScenarioOptionController.readOne);
 
-  app.route("/scenario/lastUpdate").get(ScenarioOptionController.lastUpdate);
+  app
+    .route("/scenarioOption/lastUpdate")
+    .get(ScenarioOptionController.lastUpdate);
 };
