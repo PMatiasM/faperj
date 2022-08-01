@@ -8,7 +8,5 @@ module.exports = (app) => {
 
   app.route("/scenarioLine/id/:id").get(ScenarioLineController.readOne);
 
-  app.route("/scenarioLine/preview").get(ScenarioLineController.readAllPreview);
-
   app.route("/scenarioLine/lastUpdate").get(ScenarioLineController.lastUpdate);
 };
