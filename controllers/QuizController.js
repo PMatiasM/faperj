@@ -11,14 +11,6 @@ class QuizController {
     try {
       const db = await asyncMysql();
 
-      for (const quizItem of quiz.itemList) {
-        const response = await axios.post(
-          "http://localhost:31415/quizItems",
-          quizItem
-        );
-        idList.push(response.data.id);
-      }
-
       if (quiz.title === "") {
         throw new Error("Column 'title' cannot be null");
       }
@@ -34,6 +26,14 @@ class QuizController {
         throw new Error(`The title '${quiz.title}' already exists`);
       }
 
+      for (const quizItem of quiz.itemList) {
+        const response = await axios.post(
+          "http://localhost/api/quizItems",
+          quizItem
+        );
+        idList.push(response.data.id);
+      }
+
       const values = {
         title: quiz.title,
         itemList: JSON.stringify(idList),
@@ -42,17 +42,17 @@ class QuizController {
       };
 
       const result = await db.query(query, values);
-      const listId = result[0].insertId;
+      const quizId = result[0].insertId;
       await db.end();
       return res.status(201).json({
         Status: "Created",
-        id: listId,
+        id: quizId,
       });
     } catch (error) {
       if (error.response) {
-        res.status(500).json(error.response.data);
+        return res.status(500).json(error.response.data);
       } else {
-        res.status(500).json({ "Error message": error.message });
+        return res.status(500).json({ "Error message": error.message });
       }
     }
   }
@@ -72,7 +72,7 @@ class QuizController {
 
         for (const quizItem of quiz.itemList) {
           const item = await axios.get(
-            `http://localhost:31415/quizItems/id/${quizItem}`
+            `http://localhost/api/quizItems/id/${quizItem}`
           );
           itemList.push(item.data);
         }
@@ -86,12 +86,12 @@ class QuizController {
         });
       }
 
-      res.json(allQuizes);
+      return res.json(allQuizes);
     } catch (error) {
       if (error.response) {
-        res.status(500).json(error.response.data);
+        return res.status(500).json(error.response.data);
       } else {
-        res.status(500).json({ "Error message": error.message });
+        return res.status(500).json({ "Error message": error.message });
       }
     }
   }
@@ -114,12 +114,12 @@ class QuizController {
 
       for (const quizItem of quiz.itemList) {
         const item = await axios.get(
-          `http://localhost:31415/quizItems/id/${quizItem}`
+          `http://localhost/api/quizItems/id/${quizItem}`
         );
         itemList.push(item.data);
       }
 
-      res.json({
+      return res.json({
         id: quiz.id,
         title: quiz.title,
         itemList,
@@ -128,9 +128,9 @@ class QuizController {
       });
     } catch (error) {
       if (error.response) {
-        res.status(500).json(error.response.data);
+        return res.status(500).json(error.response.data);
       } else {
-        res.status(500).json({ "Error message": error.message });
+        return res.status(500).json({ "Error message": error.message });
       }
     }
   }
@@ -154,9 +154,9 @@ class QuizController {
         });
       }
 
-      res.json({ quiz: allQuizes });
+      return res.json({ quiz: allQuizes });
     } catch (error) {
-      res.status(500).json({ "Error message": error.message });
+      return res.status(500).json({ "Error message": error.message });
     }
   }
 

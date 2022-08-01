@@ -125,7 +125,7 @@ class QuestionController {
         id: questionId,
       });
     } catch (error) {
-      res.status(500).json({ "Error message": error.message });
+      return res.status(500).json({ "Error message": error.message });
     }
   }
 
@@ -178,7 +178,7 @@ class QuestionController {
       await db.end();
       return res.json(questionList);
     } catch (error) {
-      res.status(500).json({ "Error message": error.message });
+      return res.status(500).json({ "Error message": error.message });
     }
   }
 
@@ -236,7 +236,7 @@ class QuestionController {
       await db.end();
       return res.json(question);
     } catch (error) {
-      res.status(500).json({ "Error message": error.message });
+      return res.status(500).json({ "Error message": error.message });
     }
   }
 

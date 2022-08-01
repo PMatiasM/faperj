@@ -57,10 +57,10 @@ class CharacterController {
 
       for (const character of characters) {
         const charName = await axios.get(
-          `http://localhost:31415/names/id/${character.charName}`
+          `http://localhost/api/names/id/${character.charName}`
         );
         const portraitURL = await axios.get(
-          `http://localhost:31415/paths/id/${character.portraitURL}`
+          `http://localhost/api/paths/id/${character.portraitURL}`
         );
         character.charName = charName.data.name;
         character.portraitURL = portraitURL.data.path;
@@ -89,10 +89,10 @@ class CharacterController {
 
       if (character) {
         const charName = await axios.get(
-          `http://localhost:31415/names/id/${character.charName}`
+          `http://localhost/api/names/id/${character.charName}`
         );
         const portraitURL = await axios.get(
-          `http://localhost:31415/paths/id/${character.portraitURL}`
+          `http://localhost/api/paths/id/${character.portraitURL}`
         );
         character.charName = charName.data.name;
         character.portraitURL = portraitURL.data.path;

@@ -30,7 +30,7 @@ class PortraitURLController {
         id: pathId,
       });
     } catch (error) {
-      res.status(500).json({ "Error message": error.message });
+      return res.status(500).json({ "Error message": error.message });
     }
   }
 
@@ -55,9 +55,15 @@ class PortraitURLController {
       const id = req.params.id;
       const db = await asyncMysql();
 
-      const path = await db.query(query, id);
+      const result = await db.query(query, id);
+      const path = result[0][0];
+
+      if (!path) {
+        throw new Error(`Id ${id} path does not exist`);
+      }
+
       await db.end();
-      return res.json(path[0][0]);
+      return res.json(path);
     } catch (error) {
       return res.status(500).json({ "Error message": error.message });
     }

@@ -11,14 +11,6 @@ class ListController {
     try {
       const db = await asyncMysql();
 
-      for (const question of questionList.questions) {
-        const response = await axios.post(
-          "http://localhost:31415/questions",
-          question
-        );
-        idList.push(response.data.id);
-      }
-
       if (questionList.title === "") {
         throw new Error("Column 'title' cannot be null");
       }
@@ -28,6 +20,14 @@ class ListController {
       );
       if (verifyTitle[0].length > 0) {
         throw new Error(`The title '${questionList.title}' already exists`);
+      }
+
+      for (const question of questionList.questions) {
+        const response = await axios.post(
+          "http://localhost/api/questions",
+          question
+        );
+        idList.push(response.data.id);
       }
 
       const values = {
@@ -45,9 +45,9 @@ class ListController {
       });
     } catch (error) {
       if (error.response) {
-        res.status(500).json(error.response.data);
+        return res.status(500).json(error.response.data);
       } else {
-        res.status(500).json({ "Error message": error.message });
+        return res.status(500).json({ "Error message": error.message });
       }
     }
   }
@@ -73,7 +73,7 @@ class ListController {
 
         for (const questionId of list.questions) {
           const question = await axios.get(
-            `http://localhost:31415/questions/id/${questionId}`
+            `http://localhost/api/questions/id/${questionId}`
           );
           questionList.push(question.data);
           themeIdlist.push(question.data.themeId);
@@ -85,13 +85,13 @@ class ListController {
 
         for (const theme of uniqueThemes) {
           const result = await axios.get(
-            `http://localhost:31415/themes/id/${theme}`
+            `http://localhost/api/themes/id/${theme}`
           );
           themeList.push(result.data);
         }
         for (const character of uniqueCharacters) {
           const result = await axios.get(
-            `http://localhost:31415/characters/id/${character}`
+            `http://localhost/api/characters/id/${character}`
           );
           characterList.push(result.data);
         }
@@ -106,12 +106,12 @@ class ListController {
         });
       }
 
-      res.json(allLists);
+      return res.json(allLists);
     } catch (error) {
       if (error.response) {
-        res.status(500).json(error.response.data);
+        return res.status(500).json(error.response.data);
       } else {
-        res.status(500).json({ "Error message": error.message });
+        return res.status(500).json({ "Error message": error.message });
       }
     }
   }
@@ -140,7 +140,7 @@ class ListController {
 
       for (const questionId of list.questions) {
         const question = await axios.get(
-          `http://localhost:31415/questions/id/${questionId}`
+          `http://localhost/api/questions/id/${questionId}`
         );
         questionList.push(question.data);
         themeIdlist.push(question.data.themeId);
@@ -152,18 +152,18 @@ class ListController {
 
       for (const theme of uniqueThemes) {
         const result = await axios.get(
-          `http://localhost:31415/themes/id/${theme}`
+          `http://localhost/api/themes/id/${theme}`
         );
         themeList.push(result.data);
       }
       for (const character of uniqueCharacters) {
         const result = await axios.get(
-          `http://localhost:31415/characters/id/${character}`
+          `http://localhost/api/characters/id/${character}`
         );
         characterList.push(result.data);
       }
 
-      res.json({
+      return res.json({
         id: list.id,
         title: list.title,
         questionList,
@@ -173,9 +173,9 @@ class ListController {
       });
     } catch (error) {
       if (error.response) {
-        res.status(500).json(error.response.data);
+        return res.status(500).json(error.response.data);
       } else {
-        res.status(500).json({ "Error message": error.message });
+        return res.status(500).json({ "Error message": error.message });
       }
     }
   }
@@ -198,9 +198,9 @@ class ListController {
         });
       }
 
-      res.json({ list: allLists });
+      return res.json({ list: allLists });
     } catch (error) {
-      res.status(500).json({ "Error message": error.message });
+      return res.status(500).json({ "Error message": error.message });
     }
   }
 

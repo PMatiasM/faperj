@@ -36,7 +36,7 @@ class QuizItemController {
         id: itemId,
       });
     } catch (error) {
-      res.status(500).json({ "Error message": error.message });
+      return res.status(500).json({ "Error message": error.message });
     }
   }
 
@@ -61,9 +61,15 @@ class QuizItemController {
     try {
       const db = await asyncMysql();
 
-      const item = await db.query(query, id);
+      const result = await db.query(query, id);
+      const item = result[0][0];
+
+      if (!item) {
+        throw new Error(`Id ${id} quizitem does not exist`);
+      }
+
       await db.end();
-      return res.json(item[0][0]);
+      return res.json(item);
     } catch (error) {
       return res.status(500).json({ "Error message": error.message });
     }

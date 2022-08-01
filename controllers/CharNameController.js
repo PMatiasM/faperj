@@ -55,9 +55,15 @@ class CharNameController {
       const id = req.params.id;
       const db = await asyncMysql();
 
-      const name = await db.query(query, id);
+      const result = await db.query(query, id);
+      const name = result[0][0];
+
+      if (!name) {
+        throw new Error(`Id ${id} name does not exist`);
+      }
+
       await db.end();
-      return res.json(name[0][0]);
+      return res.json(name);
     } catch (error) {
       return res.status(500).json({ "Error message": error.message });
     }

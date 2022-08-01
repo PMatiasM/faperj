@@ -30,7 +30,7 @@ class ThemeController {
         id: themeId,
       });
     } catch (error) {
-      res.status(500).json({ "Error message": error.message });
+      return res.status(500).json({ "Error message": error.message });
     }
   }
 
@@ -55,9 +55,15 @@ class ThemeController {
     try {
       const db = await asyncMysql();
 
-      const theme = await db.query(query, id);
+      const result = await db.query(query, id);
+      const theme = result[0][0];
+
+      if (!theme) {
+        throw new Error(`Id ${id} theme does not exist`);
+      }
+
       await db.end();
-      return res.json(theme[0][0]);
+      return res.json(theme);
     } catch (error) {
       return res.status(500).json({ "Error message": error.message });
     }
